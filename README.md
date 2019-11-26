@@ -24,11 +24,11 @@ Semantic SLAM 是研究者试图利用物体信息的方案，其在Deep Learnin
 
 - 语义帮助 SLAM。
 
-  一方面，语义分割把运动过程中的每一张图片都带上物体标签，随后传统 SLAM 将带标签的像素映射到3D空间中，就能得到一个带有标签的地图。
+  一方面，语义分割把运动过程中的每一张图片都带上物体标签，随后传统 SLAM 将带标签的像素映射到3D空间中，就能得到一个带有标签的地图。**这提供了高层次的地图，有利于机器人自主理解和人机交互**。
 
-  另一方面，语义信息亦可为回环检测、Bundle Adjustment 优化带来更多的条件，提高定位精度。
+  另一方面，语义信息亦可为回环检测、Bundle Adjustment **带来更多的优化条件，提高定位精度**。
 
-  仅实现前者的工作往往称为 **Semantic Mapping**，后者才认为是完整的 Semantic SLAM。
+  仅实现前者的工作往往称为 **Semantic Mapping**，后者才认为是真正的 Semantic SLAM。
 
 ### 发展
 
@@ -60,15 +60,31 @@ Semantic SLAM 是研究者试图利用物体信息的方案，其在Deep Learnin
    >
    > ④ 3D重建的优化使用条件随机场（CRF），同 SemanticFusion
 
-2. 以Object为单位构建地图
-
    
 
-   
+2. 第二种 Mapping 方式则**以 Object 为单位构建地图**。相比于一堆标记了类别的 voxel，包含一个个物体的语义地图，将更有价值。
+
+   此部分的重点在于如何做**数据关联**（Data Association），即**跟踪已识别 Object 和发现新 Object**，以 [[8]](https://arxiv.org/pdf/1609.07849.pdf) 为例描述如下。
+
+   ![image-20191126112424189](./imgs/image-20191126112424189.png)
+
+   > 使用 RGB-D 和 ORB-SLAM2 可构建一个 dense 的点云。
+   >
+   > 对于关键帧，SSD 检测出多个 Object，应用无监督的3D分割方法 [[9]](https://ieeexplore.ieee.org/document/7759618) **为每一个 Object 分配点云序列，并存储起来**。
+   >
+   > 数据关联：得到一组分割结果（Object, 对应点云）后，据点云重心的欧式距离，在找出最接近的一组候选 Object，如果**超过 50% 的点对的距离小于一个阈值（文中 2cm），就认为是匹配到的 Object**，否则认为是新 Object，存储下来。
+   >
+   > 匹配为同一 Object 的两个点云，直接**累加分类概率**（置信度）。这和上文提到的 Recursive Bayes 方法很像，**即利用 SLAM 提供的物体多角度信息，增强分割结果。**
+   >
+   > （注：本文的 Related Work 写得很好）
+
+
 
 #### Real Semantic Mapping
 
 此部分为本文的重点
+
+
 
 
 
