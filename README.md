@@ -2,7 +2,7 @@
 typora-copy-images-to: ./imgs
 ---
 
-# Review of                                         Semantic & Reinforcement SLAM
+# Semantic & Reinforcement SLAM Review
 
 **语义 SLAM** 和 **基于强化学习的 SLAM**
 
