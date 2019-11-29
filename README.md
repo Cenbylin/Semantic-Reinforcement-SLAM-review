@@ -2,7 +2,7 @@
 typora-copy-images-to: ./imgs
 ---
 
-# Semantic & Reinforcement SLAM Review
+# Review of                                         Semantic & Reinforcement SLAM
 
 **语义 SLAM** 和 **基于强化学习的 SLAM**
 
@@ -108,11 +108,11 @@ Semantic SLAM 是研究者试图利用物体信息的方案，其在Deep Learnin
 
 > 如上图所示，(a) 为语义分割图，(b) 为类别 “Car” 的区域，在(c) (d) 中，根据与 Car 区域的距离，概率值从1 (红) 变为 0 (蓝)。 其他类别如Tree，也会产生此概率分布图。
 >
-> **距离 到 概率 的转化**，利用了下方的高斯分布，(c) (d) 的不同是方差 $\sigma^2$ 导致的。这是在为量化重投影误差做准备。对于一个空间点P来说，
+> 其中 **距离 到 概率 的转化**，利用了下方的高斯分布，(c) (d) 的不同是方差 $\sigma^2$ 导致的。这是在为量化重投影误差做准备。对于一个空间点P（拥有坐标 $X$）来说，重投影之后计算得到一个概率：
 > $$
 > p_c \propto e^{-\frac{1}{2 \sigma^{2}} D T^{(c)}\left(\pi\left(T, X\right)\right)^{2}}
 > $$
-> 其中 $D T^{(c)}\left(·\right)$ 计算了重投影的结果 $\pi\left(T, X\right)$ 与类别 c 区域的最近距离，最后得到的 $p_c$ 用于**计算重投影误差**：
+> 其中 $D T^{(c)}\left(·\right)$ 计算了重投影的结果 $\pi\left(T, X\right)$ 与类别 c 区域的**最近距离**，最后得到的 $p_c$ 用于**计算重投影误差**：
 > $$
 > e_{s e m}=\sum_{c \in \mathcal{C}} w^{(c)} \log \left(p_c\right)
 > $$
